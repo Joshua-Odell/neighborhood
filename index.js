@@ -55,8 +55,8 @@ function handler(array){
 }
 
 function print(result) {
-    $('.result-list').empty();
-    $('.result-list').html(result);
+    $('.newsResultList').empty();
+    $('.newsResultList').html(result);
 }
 
 function format(parameters){
@@ -93,6 +93,7 @@ function begin() {
         let city = $('#city').val();
         let state = $('#state').val();
         pull(street, city, state);
+        //remove hidden class from links
         });
     
 }

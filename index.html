@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neighborhood</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="crime" href="crime.html">
+    <link rel="news" href="news.html">
+    <link rel="general" href="general.html">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet" type="text/css" />
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
@@ -28,11 +31,16 @@
         </fieldset>
     </div>
     <div>
-        <ul>
-            <li> <a href="crime.html">Crime Stats</a></li>
-            <li> <a href="general.html">Demographic Information</a></li>
-            <li> <a href="news.html">Recent News</a></li>
-        </ul>
+        <h2 class ="hidden results">Recent News</h2>
+        <ul class="newsResultList hidden"></ul>
+    </div>
+    <div>
+        <h2 class ="hidden results">Crime Data</h2>
+        <ul class="crimeResultList hidden"></ul>
+    </div>
+    <div>
+        <h2 class ="hidden results">Demographic Information</h2>
+        <ul class="generalResultList hidden"></ul>
     </div>
     <script src='index.js'></script>
 </body>
