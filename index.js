@@ -39,23 +39,19 @@ function news(city, state){
 
 function handler(array){
     //not all items have an image 
-    for ( i=0; i<array.length && i<=10; i++) {
+    for ( i=0; i<array.length && i<5; i++) {
         let title = array[i].name;
         let description = array[i].description
         //if (array[i].image != undefined){
             //let image = array[i].image.thumbnail.contentUrl;
         //}
         let site = array[i].url;
-
-        console.log(title);
-
-        //console.log(image);
-        console.log(site);
         let html = `<li> <h5>${title}</h5> <br> <p>${description}</p> <a href='${site}'>read more</a> </li>`;
         result = result + html;
     }
     console.log(result);
     print(result);
+    result = '';
 }
 
 function print(result) {
