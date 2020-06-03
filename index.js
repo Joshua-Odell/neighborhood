@@ -32,7 +32,6 @@ function news(city, state){
     fetch(url, requestOptions)
         .then(response => response.json())
         .then(responseJson => {
-            console.log(responseJson);
             handler(responseJson.value); 
         });
 }
@@ -49,7 +48,6 @@ function handler(array){
         let html = `<li> <h5>${title}</h5> <br> <p>${description}</p> <a href='${site}'>read more</a> </li>`;
         result = result + html;
     }
-    console.log(result);
     print(result);
     result = '';
 }
@@ -67,7 +65,7 @@ function format(parameters){
 
 function crime(street, city, state){
     // uses location to pull crime stats 
-    // Unknown crime API
+    // Crime Data API https://rapidapi.com/jgentes/api/crime-data/endpoints
     let parameter = {
         apiKey: newsAPIKey,
         q: city + ", " + state
@@ -94,8 +92,23 @@ function begin() {
         let state = $('#state').val();
         pull(street, city, state);
         //remove hidden class from links
+        $('.results').removeClass('hidden');
         });
-    
+    $('.news-header').on('click', function(e) {
+        $('.newsResultList').toggle('hidden');
+
+        // 
+    });
+    $('.crime-header').on('click', function(e) {
+        $('.crimeResultList').toggle('hidden');
+        console.log("crime");
+        // 
+    });
+    $('.general-header').on('click', function(e) {
+        $('.generalResultList').toggle('hidden');
+        console.log("general");
+        // 
+    });
 }
 
 $(begin);
