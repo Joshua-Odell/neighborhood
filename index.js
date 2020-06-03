@@ -1,6 +1,7 @@
 const newsAPIKey = '63ed41adf23c46b58f5e7d2b8e7b703d'
 const newsAPIendpoint = 'https://api.cognitive.microsoft.com/bing/v7.0/news/search'
 
+let result = ''
 
 function pull(street, city, state){
     //
@@ -18,7 +19,7 @@ function news(city, state){
     }
     
     var myHeaders = new Headers();
-        myHeaders.append("Ocp-Apim-Subscription-Key", "63ed41adf23c46b58f5e7d2b8e7b703d");
+        myHeaders.append("Ocp-Apim-Subscription-Key", newsAPIKey);
 
     var requestOptions = {
         method: 'GET',
@@ -31,8 +32,35 @@ function news(city, state){
     fetch(url, requestOptions)
         .then(response => response.json())
         .then(responseJson => {
-            console.log(responseJson); 
+            console.log(responseJson);
+            handler(responseJson.value); 
         });
+}
+
+function handler(array){
+    //not all items have an image 
+    for ( i=0; i<array.length && i<=10; i++) {
+        let title = array[i].name;
+        let description = array[i].description
+        //if (array[i].image != undefined){
+            //let image = array[i].image.thumbnail.contentUrl;
+        //}
+        let site = array[i].url;
+
+        console.log(title);
+
+        //console.log(image);
+        console.log(site);
+        let html = `<li> <h5>${title}</h5> <br> <p>${description}</p> <a href='${site}'>read more</a> </li>`;
+        result = result + html;
+    }
+    console.log(result);
+    print(result);
+}
+
+function print(result) {
+    $('.result-list').empty();
+    $('.result-list').html(result);
 }
 
 function format(parameters){
