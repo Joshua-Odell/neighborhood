@@ -6,6 +6,9 @@ const crimeAPIKey = 'k3RAzKN1Ag14xTPlculT39RZb38LGgsG8n27ZycG'
 const crimeAPIendpoint = 'https://crimeometer.p.rapidapi.comstats/' //CrimeoMeter API
 const longAPIKey = '2c4a3f1979af46d1bbbed1bc3ff8b663'
 const longAPIendpoint = 'https://api.opencagedata.com/geocode/v1/json' //OpenCage API
+const nasaAPIKey = 'd27jLmmGFDAM1k6g5ZfnfOHrlFcC6yJcrpJLlLbL' 
+const nasaAPIendpoint = 'https://api.nasa.gov/planetary/earth/imagery' // Use Nasa to display an image of the area
+
 
 
 
@@ -16,6 +19,9 @@ function pull(street, city, state){
 }
 
 function long(city, state){
+    //This function uses Open Cage to convert city and state into lon and lat
+    //This is a required parameter for CrimeoMeter 
+    //This also may allow for satellite maps to display the location 
     let parameter = {
         q: city + " " + state,
         key: longAPIKey
@@ -28,18 +34,38 @@ function long(city, state){
         .then(responseJson => {
             let lat= responseJson.results[0].bounds.northeast.lat;
             let lon= responseJson.results[0].bounds.northeast.lng;
-            crime(lon, lat);
+            //crime(lon, lat);
+            map(lon,lat);
+        });
+}
+
+function map(lon, lat){
+
+    let parameter = {
+        lon: lon,
+        lat: lat,
+        dim: .025,
+        cloud_score: false,
+        api_key: nasaAPIKey
+    }
+    let temp=format(parameter);
+    let url= nasaAPIendpoint + '?' +temp;
+    fetch(url)
+        .then(response => response.json())
+        .then(responseJson => {
+            let result =`<img href=${responseJson}>`; //this is returning a straight image without a link and I am not sure how to handle this as a response to display
+            generalPrint(result);
         });
 }
 
 function demographic(city, state){
     //get demographic information about the provided city
     let parameter = {
-        apiKey: newsAPIKey,
+        apiKey: censusAPIKey,
         q: city + ", " + state
     }
     let temp=format(parameter);
-    let url = newsAPIendpoint + '?' + temp;
+    let url = censusAPIendpoint + '?' + temp;
 }
 
 function crime(lon, lat,){
@@ -69,7 +95,7 @@ function crime(lon, lat,){
 
     let temp= format(parameter);
     let url= crimeAPIendpoint + '?' + temp;
-    fetch(url, crimeHeaders) //An unkown error is occuring checked: parameters and key
+    fetch(url, crimeHeaders) //An unknown error is occurring checked: parameters and key
         .then(response => response.json())
         .then(responseJson => {
             console.log(responseJson.value); 
