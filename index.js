@@ -8,7 +8,6 @@ const longAPIKey = '2c4a3f1979af46d1bbbed1bc3ff8b663'
 const longAPIendpoint = 'https://api.opencagedata.com/geocode/v1/json' //OpenCage API
 
 
-let result = ''
 
 function pull(street, city, state){
     //
@@ -33,15 +32,31 @@ function long(city, state){
         });
 }
 
-function crime(lon, lat,){
-    let range = '7m';
+function demographic(city, state){
+    //get demographic information about the provided city
     let parameter = {
-        //datetime_end: ,
+        apiKey: newsAPIKey,
+        q: city + ", " + state
+    }
+    let temp=format(parameter);
+    let url = newsAPIendpoint + '?' + temp;
+}
+
+function crime(lon, lat,){
+    let range = '7mi';
+    let now = new Date();
+    let time = now.toISOString();
+    let past = now.setFullYear(now.getFullYear()-1);
+    console.log(past);
+    let parameter = {
+        datetime_end: time,
         lon: lon,
         lat: lat,
         distance: range,
-        //datetime_ini: ,
+        datetime_ini: time, //this needs to be the same format as the previous time but one year earlier
     }
+
+    console.log(parameter.datetime_end);
 
     let crimeHeaders =  {
         "method": "GET",
@@ -54,7 +69,7 @@ function crime(lon, lat,){
 
     let temp= format(parameter);
     let url= crimeAPIendpoint + '?' + temp;
-    fetch(url, crimeHeaders)
+    fetch(url, crimeHeaders) //An unkown error is occuring checked: parameters and key
         .then(response => response.json())
         .then(responseJson => {
             console.log(responseJson.value); 
@@ -63,7 +78,7 @@ function crime(lon, lat,){
 
 function news(city, state){
     //uses the city and state as a search parameter to pull news
-    //News API
+    //Uses Bing News Search API
     //use the from parameter to get information from the past six months
     let parameter = {
         q: city + ", " + state
@@ -88,6 +103,7 @@ function news(city, state){
 }
 
 function newsHandler(array){
+    let result = ''
     //not all items have an image 
     for ( i=0; i<array.length && i<5; i++) {
         let title = array[i].name;
@@ -99,13 +115,37 @@ function newsHandler(array){
         let html = `<li> <h5>${title}</h5> <br> <p>${description}</p> <a href='${site}'>read more</a> </li>`;
         result = result + html;
     }
-    print(result);
+    newsPrint(result);
     result = '';
 }
 
-function print(result) {
+function crimeHandler(array){
+    let result=''
+    //This will process the results from CrimeoMeter API
+    crimePrint(result);
+    result = '';
+}
+
+function generalHandler(array){
+    let result=''
+    //This will process the results from CrimeoMeter API
+    generalPrint(result);
+    result = '';
+}
+
+function newsPrint(result) {
     $('.newsResultList').empty();
     $('.newsResultList').html(result);
+}
+
+function crimePrint(result) {
+    $('.crimeResultList').empty();
+    $('.crimeResultList').html(result);
+}
+
+function generalPrint(result) {
+    $('.generalResultList').empty();
+    $('.generalResultList').html(result);
 }
 
 function format(parameters){
@@ -114,15 +154,7 @@ function format(parameters){
         return formattedSearch.join('&');
 }
 
-function demographic(city, state){
-    //get demographic information about the provided city
-    let parameter = {
-        apiKey: newsAPIKey,
-        q: city + ", " + state
-    }
-    let temp=format(parameter);
-    let url = newsAPIendpoint + '?' + temp;
-}
+
 
 function begin() {
     $('#submit').on('click', function(e) {
