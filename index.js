@@ -1,14 +1,65 @@
 const newsAPIKey = '63ed41adf23c46b58f5e7d2b8e7b703d'
-const newsAPIendpoint = 'https://api.cognitive.microsoft.com/bing/v7.0/news/search'
+const newsAPIendpoint = 'https://api.cognitive.microsoft.com/bing/v7.0/news/search' // Bing News search API
+const censusAPIKey = 'a95007220d2c9eb1fac73c3590adaea8fe779357'
+const censusAPIendpoint = 'https://api.census.gov/data/2019/pep/population' //US census, This limits the app to the US Market
+const crimeAPIKey = 'k3RAzKN1Ag14xTPlculT39RZb38LGgsG8n27ZycG'
+const crimeAPIendpoint = 'https://crimeometer.p.rapidapi.comstats/' //CrimeoMeter API
+const longAPIKey = '2c4a3f1979af46d1bbbed1bc3ff8b663'
+const longAPIendpoint = 'https://api.opencagedata.com/geocode/v1/json' //OpenCage API
+
 
 let result = ''
 
 function pull(street, city, state){
     //
     news(city, state);
+    long(city,state);
 }
 
+function long(city, state){
+    let parameter = {
+        q: city + " " + state,
+        key: longAPIKey
+    }
 
+    let temp= format(parameter);
+    let url= longAPIendpoint + '?' + temp;
+    fetch(url)
+        .then(response => response.json())
+        .then(responseJson => {
+            let lat= responseJson.results[0].bounds.northeast.lat;
+            let lon= responseJson.results[0].bounds.northeast.lng;
+            crime(lon, lat);
+        });
+}
+
+function crime(lon, lat,){
+    let range = '7m';
+    let parameter = {
+        //datetime_end: ,
+        lon: lon,
+        lat: lat,
+        distance: range,
+        //datetime_ini: ,
+    }
+
+    let crimeHeaders =  {
+        "method": "GET",
+        "headers": {
+            "x-rapidapi-host": "crimeometer.p.rapidapi.com",
+            "x-rapidapi-key": "8d49325041msh851e936a17583c6p13d18fjsne9db9126acf3",
+            "x-api-key": "k3RAzKN1Ag14xTPlculT39RZb38LGgsG8n27ZycG"
+        }
+    }
+
+    let temp= format(parameter);
+    let url= crimeAPIendpoint + '?' + temp;
+    fetch(url, crimeHeaders)
+        .then(response => response.json())
+        .then(responseJson => {
+            console.log(responseJson.value); 
+        });
+}
 
 function news(city, state){
     //uses the city and state as a search parameter to pull news
@@ -32,11 +83,11 @@ function news(city, state){
     fetch(url, requestOptions)
         .then(response => response.json())
         .then(responseJson => {
-            handler(responseJson.value); 
+            newsHandler(responseJson.value); 
         });
 }
 
-function handler(array){
+function newsHandler(array){
     //not all items have an image 
     for ( i=0; i<array.length && i<5; i++) {
         let title = array[i].name;
@@ -61,17 +112,6 @@ function format(parameters){
     const formattedSearch = Object.keys(parameters)
         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(parameters[key])}`)
         return formattedSearch.join('&');
-}
-
-function crime(street, city, state){
-    // uses location to pull crime stats 
-    // Crime Data API https://rapidapi.com/jgentes/api/crime-data/endpoints
-    let parameter = {
-        apiKey: newsAPIKey,
-        q: city + ", " + state
-    }
-    let temp=format(parameter);
-    let url = newsAPIendpoint + '?' + temp;
 }
 
 function demographic(city, state){
