@@ -3,7 +3,7 @@ const newsAPIendpoint = 'https://api.cognitive.microsoft.com/bing/v7.0/news/sear
 const censusAPIKey = 'a95007220d2c9eb1fac73c3590adaea8fe779357'
 const censusAPIendpoint = 'https://api.census.gov/data/2019/pep/population' //US census, This limits the app to the US Market
 const crimeAPIKey = 'k3RAzKN1Ag14xTPlculT39RZb38LGgsG8n27ZycG'
-const crimeAPIendpoint = 'https://crimeometer.p.rapidapi.comstats/' //CrimeoMeter API
+const crimeAPIendpoint = 'https://crimeometer.com/sandbox/incidents/raw-data' //CrimeoMeter API Does not support CORS
 const longAPIKey = '2c4a3f1979af46d1bbbed1bc3ff8b663'
 const longAPIendpoint = 'https://api.opencagedata.com/geocode/v1/json' //OpenCage API
 const nasaAPIKey = 'd27jLmmGFDAM1k6g5ZfnfOHrlFcC6yJcrpJLlLbL' 
@@ -103,7 +103,8 @@ function crime(lon, lat,){
         "headers": {
             "x-rapidapi-host": "crimeometer.p.rapidapi.com",
             "x-rapidapi-key": "8d49325041msh851e936a17583c6p13d18fjsne9db9126acf3",
-            "x-api-key": "k3RAzKN1Ag14xTPlculT39RZb38LGgsG8n27ZycG"
+            "x-api-key": "k3RAzKN1Ag14xTPlculT39RZb38LGgsG8n27ZycG",
+            "Content-Type": "application/json"
         }
     }
 
