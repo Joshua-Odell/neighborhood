@@ -9,13 +9,15 @@ const longAPIendpoint = 'https://api.opencagedata.com/geocode/v1/json' //OpenCag
 const nasaAPIKey = 'd27jLmmGFDAM1k6g5ZfnfOHrlFcC6yJcrpJLlLbL' 
 const nasaAPIendpoint = 'https://api.nasa.gov/planetary/earth/imagery' // Use Nasa to display an image of the area
 
-
+let count = 0;
+let standing = '';
 
 
 function pull(street, city, state){
     //
     news(city, state);
     long(city,state);
+    demographic(city, state);
 }
 
 function long(city, state){
@@ -40,7 +42,7 @@ function long(city, state){
 }
 
 function map(lon, lat){
-
+//This shows a satellite image of the coordinates, The image quality is poor I will possibly replace this API with the google earth API but there is a waiting period
     let parameter = {
         lon: lon,
         lat: lat,
@@ -50,22 +52,34 @@ function map(lon, lat){
     }
     let temp=format(parameter);
     let url= nasaAPIendpoint + '?' +temp;
+    count += 1;
     fetch(url)
         .then(response => response.json())
         .then(responseJson => {
-            let result =`<img href=${responseJson}>`; //this is returning a straight image without a link and I am not sure how to handle this as a response to display
+            let result =responseJson; //this is returning a straight image without a link and I am not sure how to handle this as a response to display
             generalPrint(result);
         });
+    
 }
 
 function demographic(city, state){
     //get demographic information about the provided city
+    let mid = $(fips[state]);
+    let stand =mid[0];
     let parameter = {
-        apiKey: censusAPIKey,
-        q: city + ", " + state
+        key: censusAPIKey,
+        get: 'POP',
+        //for: 'consolidated city:' + city,
+        for: 'state:' + stand
     }
     let temp=format(parameter);
     let url = censusAPIendpoint + '?' + temp;
+    count += 1;
+    fetch(url)
+        .then(response => response.json())
+        .then(responseJson => {
+            generalHandler(responseJson[1], state);
+        });
 }
 
 function crime(lon, lat,){
@@ -152,9 +166,8 @@ function crimeHandler(array){
     result = '';
 }
 
-function generalHandler(array){
-    let result=''
-    //This will process the results from CrimeoMeter API
+function generalHandler(array, state){
+    let result=`<h4>${state} Population</h4> <p> ${array[0]} </p>`
     generalPrint(result);
     result = '';
 }
@@ -170,8 +183,9 @@ function crimePrint(result) {
 }
 
 function generalPrint(result) {
-    $('.generalResultList').empty();
+    $('.crimeResultList').empty();
     $('.generalResultList').html(result);
+    
 }
 
 function format(parameters){
@@ -199,12 +213,10 @@ function begin() {
     });
     $('.crime-header').on('click', function(e) {
         $('.crimeResultList').toggle('hidden');
-        console.log("crime");
         // 
     });
     $('.general-header').on('click', function(e) {
         $('.generalResultList').toggle('hidden');
-        console.log("general");
         // 
     });
 }
