@@ -1,20 +1,4 @@
-const newsAPIKey = '63ed41adf23c46b58f5e7d2b8e7b703d'
-const newsAPIendpoint = 'https://api.cognitive.microsoft.com/bing/v7.0/news/search' // Bing News search API
-const censusAPIKey = 'a95007220d2c9eb1fac73c3590adaea8fe779357'
-const censusAPIendpoint = 'https://api.census.gov/data/2019/pep/population' //US census, This limits the app to the US Market
-const crimeAPIKey = 'k3RAzKN1Ag14xTPlculT39RZb38LGgsG8n27ZycG'
-const crimeAPIendpoint = 'https://crimeometer.com/sandbox/incidents/raw-data' //CrimeoMeter API Does not support CORS
-const longAPIKey = '2c4a3f1979af46d1bbbed1bc3ff8b663'
-const longAPIendpoint = 'https://api.opencagedata.com/geocode/v1/json' //OpenCage API
-const nasaAPIKey = 'd27jLmmGFDAM1k6g5ZfnfOHrlFcC6yJcrpJLlLbL' 
-const nasaAPIendpoint = 'https://api.nasa.gov/planetary/earth/imagery' // Use Nasa to display an image of the area
-const googleMapsEndpoint = ""
-const googleMapsAPIKey = 'AIzaSyAsROXBiz9KtbUHdEP-wRRtn1hbCDyoA5o'
-
-let count = 0;
-let standing = '';
-
-
+let count = 0;// A weird error is occurring when i delete this unconnected variable
 function pull(street, city, state){
     //
     news(city, state);
@@ -24,7 +8,7 @@ function pull(street, city, state){
 
 function long(street, city, state){
     //This function uses Open Cage to convert city and state into lon and lat
-    //This is a required parameter for CrimeoMeter 
+    
     //This also may allow for satellite maps to display the location 
     let parameter = {
         q:street + " " + city + " " + state,
@@ -38,9 +22,9 @@ function long(street, city, state){
         .then(responseJson => {
             let lat= responseJson.results[0].bounds.northeast.lat;
             let lon= responseJson.results[0].bounds.northeast.lng;
-            //crime(lon, lat);
+            school(lon, lat, state);
             satellite(lon, lat);
-            map(lon, lat);
+            //map(lon, lat); not cors capable
         });
 }
 
@@ -55,7 +39,6 @@ function satellite(lon, lat){
     }
     let temp=format(parameter);
     let url= nasaAPIendpoint + '?' +temp;
-    count += 1;
     fetch(url)
         .then(response => {
             let result = response.url
@@ -80,7 +63,6 @@ function demographic(city, state){
     }
     let temp=format(parameter);
     let url = censusAPIendpoint + '?' + temp;
-    count += 1;
     fetch(url)
         .then(response => response.json())
         .then(responseJson => {
@@ -88,55 +70,41 @@ function demographic(city, state){
         });
 }
 
-function map(lon,lat) {
+// function map(lon,lat) {
+//     let parameter = {
+//         key: googleMapsAPIKey,
+//         location: {
+//             "lat": lat,
+//             "lon": lon
+//         }
+//     }
+//     let temp=format(parameter);
+//     let url = googleMapsEndpoint + '?' + temp
+//     fetch(url)
+//         .then (response => {
+//             console.log(response);
+//             return response.Json
+//         })
+//         .then (responseJson => {
+//             mapHandler(responseJson)
+//         });
+// }
+
+function school(lon, lat, state){
     let parameter = {
-        key: googleMapsAPIKey,
-        q: `$(lon), $(lat)`
+        st: state,
+        nearLongitude: lon,
+        nearLatitude: lat,
+        appID: schoolID,
+        appKey: schoolAPIKey
     }
-    let temp=format(parameter);
-    let url = googleMapsEndpoint + '?' + temp
-    fetch(url)
-        .then (response => {
-            //console.log(response);
-            return response.Json
-        })
-        .then (responseJson => {
-            mapHandler(responseJson)
-        });
-}
-
-function crime(lon, lat,){
-    let range = '7mi';
-    let now = new Date();
-    let time = now.toISOString();
-    let past = now.setFullYear(now.getFullYear()-1);
-    console.log(past);
-    let parameter = {
-        datetime_end: time,
-        lon: lon,
-        lat: lat,
-        distance: range,
-        datetime_ini: time, //this needs to be the same format as the previous time but one year earlier
-    }
-
-    console.log(parameter.datetime_end);
-
-    let crimeHeaders =  {
-        "method": "GET",
-        "headers": {
-            "x-rapidapi-host": "crimeometer.p.rapidapi.com",
-            "x-rapidapi-key": "8d49325041msh851e936a17583c6p13d18fjsne9db9126acf3",
-            "x-api-key": "k3RAzKN1Ag14xTPlculT39RZb38LGgsG8n27ZycG",
-            "Content-Type": "application/json"
-        }
-    }
-
     let temp= format(parameter);
-    let url= crimeAPIendpoint + '?' + temp;
-    fetch(url, crimeHeaders) //An unknown error is occurring checked: parameters and key
+    let url= schoolEndpoint + '?' + temp;
+    fetch(url)
         .then(response => response.json())
         .then(responseJson => {
-            console.log(responseJson.value); 
+            console.log(responseJson.districtList);
+            schoolHandler(responseJson.districtList); 
         });
 }
 
@@ -166,9 +134,9 @@ function news(city, state){
         });
 }
 
-function mapHandler(array){
-    //console.log("map success");
-}
+// function mapHandler(array){
+//     //console.log("map success");
+// }
 
 function newsHandler(array){
     let result = ''
@@ -187,10 +155,14 @@ function newsHandler(array){
     result = '';
 }
 
-function crimeHandler(array){
+function schoolHandler(array){
     let result=''
-    //This will process the results from CrimeoMeter API
-    crimePrint(result);
+    for (i=0; i<array.length; i++){
+        let temp = `<li> <h4>${array[i].districtName}</h4> <br> <p>Phone Number: ${array[i].phone}</p> <a href=${array[i].url}>Website</a> </li>`
+        result += temp;
+    }
+    console.log(result);
+    schoolPrint(result);
     result = '';
 }
 
@@ -211,9 +183,9 @@ function newsPrint(result) {
     $('.newsResultList').html(result);
 }
 
-function crimePrint(result) {
-    $('.crimeResultList').empty();
-    $('.crimeResultList').html(result);
+function schoolPrint(result) {
+    $('.schoolResultList').empty();
+    $('.schoolResultList').html(result);
 }
 
 function generalPrint(result) {
@@ -253,8 +225,8 @@ function begin() {
 
         // 
     });
-    $('.crime-header').on('click', function(e) {
-        $('.crimeResultList').toggle('hidden');
+    $('.school-header').on('click', function(e) {
+        $('.schoolResultList').toggle('hidden');
         // 
     });
     $('.general-header').on('click', function(e) {
