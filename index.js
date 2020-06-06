@@ -18,16 +18,16 @@ let standing = '';
 function pull(street, city, state){
     //
     news(city, state);
-    long(city,state);
+    long(street, city, state);
     demographic(city, state);
 }
 
-function long(city, state){
+function long(street, city, state){
     //This function uses Open Cage to convert city and state into lon and lat
     //This is a required parameter for CrimeoMeter 
     //This also may allow for satellite maps to display the location 
     let parameter = {
-        q: city + " " + state,
+        q:street + " " + city + " " + state,
         key: longAPIKey
     }
 
@@ -39,8 +39,8 @@ function long(city, state){
             let lat= responseJson.results[0].bounds.northeast.lat;
             let lon= responseJson.results[0].bounds.northeast.lng;
             //crime(lon, lat);
-            satellite(lon,lat);
-            map(lon,lat);
+            satellite(lon, lat);
+            map(lon, lat);
         });
 }
 
