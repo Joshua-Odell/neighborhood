@@ -1,4 +1,5 @@
 let count = 0;// A weird error is occurring when i delete this unconnected variable
+
 function pull(street, city, state){
     //
     news(city, state);
@@ -97,14 +98,13 @@ function school(lon, lat, state){
         nearLatitude: lat,
         appID: schoolID,
         appKey: schoolAPIKey,
-        sortBy: distance
+        sortBy: "distance"
     }
     let temp= format(parameter);
     let url= schoolEndpoint + '?' + temp;
     fetch(url)
         .then(response => response.json())
         .then(responseJson => {
-            console.log(responseJson.districtList);
             schoolHandler(responseJson.districtList); 
         });
 }
@@ -162,7 +162,6 @@ function schoolHandler(array){
         let temp = `<li> <h4>${array[i].districtName}</h4> <br> <p>Phone Number: ${array[i].phone}</p> <a href=${array[i].url}>Website</a> </li>`
         result += temp;
     }
-    console.log(result);
     schoolPrint(result);
     result = '';
 }
