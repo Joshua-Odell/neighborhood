@@ -8,6 +8,8 @@ const longAPIKey = '2c4a3f1979af46d1bbbed1bc3ff8b663'
 const longAPIendpoint = 'https://api.opencagedata.com/geocode/v1/json' //OpenCage API
 const nasaAPIKey = 'd27jLmmGFDAM1k6g5ZfnfOHrlFcC6yJcrpJLlLbL' 
 const nasaAPIendpoint = 'https://api.nasa.gov/planetary/earth/imagery' // Use Nasa to display an image of the area
+const googleMapsEndpoint = ""
+const googleMapsAPIKey = 'AIzaSyAsROXBiz9KtbUHdEP-wRRtn1hbCDyoA5o'
 
 let count = 0;
 let standing = '';
@@ -37,11 +39,12 @@ function long(city, state){
             let lat= responseJson.results[0].bounds.northeast.lat;
             let lon= responseJson.results[0].bounds.northeast.lng;
             //crime(lon, lat);
+            satellite(lon,lat);
             map(lon,lat);
         });
 }
 
-function map(lon, lat){
+function satellite(lon, lat){
 //This shows a satellite image of the coordinates, The image quality is poor I will possibly replace this API with the google earth API but there is a waiting period
     let parameter = {
         lon: lon,
@@ -54,12 +57,15 @@ function map(lon, lat){
     let url= nasaAPIendpoint + '?' +temp;
     count += 1;
     fetch(url)
-        .then(response => response.json())
-        .then(responseJson => {
-            let result =responseJson; //this is returning a straight image without a link and I am not sure how to handle this as a response to display
-            generalPrint(result);
-        });
-    
+        .then(response => {
+            let result = response.url
+            if (response.ok === true){
+                imageHandler(result);
+            }
+            else {
+                satellitePrint("No Satellite Images Available")
+            }
+        })   
 }
 
 function demographic(city, state){
@@ -79,6 +85,23 @@ function demographic(city, state){
         .then(response => response.json())
         .then(responseJson => {
             generalHandler(responseJson[1], state);
+        });
+}
+
+function map(lon,lat) {
+    let parameter = {
+        key: googleMapsAPIKey,
+        q: `$(lon), $(lat)`
+    }
+    let temp=format(parameter);
+    let url = googleMapsEndpoint + '?' + temp
+    fetch(url)
+        .then (response => {
+            //console.log(response);
+            return response.Json
+        })
+        .then (responseJson => {
+            mapHandler(responseJson)
         });
 }
 
@@ -143,6 +166,10 @@ function news(city, state){
         });
 }
 
+function mapHandler(array){
+    //console.log("map success");
+}
+
 function newsHandler(array){
     let result = ''
     //not all items have an image 
@@ -173,6 +200,11 @@ function generalHandler(array, state){
     result = '';
 }
 
+function imageHandler(image){
+    let result=`<img src="${image}" class="image">`
+    satellitePrint(result);
+}
+
 function newsPrint(result) {
     $('.newsResultList').empty();
     $('.newsResultList').html(result);
@@ -184,9 +216,15 @@ function crimePrint(result) {
 }
 
 function generalPrint(result) {
-    $('.crimeResultList').empty();
+    $('.generalResultList').empty();
     $('.generalResultList').html(result);
     
+}
+
+function satellitePrint(result) {
+    console.log(result);
+    $('.satellite').empty();
+    $('.satellite').html(result);
 }
 
 function format(parameters){
@@ -218,6 +256,7 @@ function begin() {
     });
     $('.general-header').on('click', function(e) {
         $('.generalResultList').toggle('hidden');
+        $('.satellite').toggle('hidden');
         // 
     });
 }
