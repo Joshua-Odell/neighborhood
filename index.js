@@ -96,7 +96,8 @@ function school(lon, lat, state){
         nearLongitude: lon,
         nearLatitude: lat,
         appID: schoolID,
-        appKey: schoolAPIKey
+        appKey: schoolAPIKey,
+        sortBy: distance
     }
     let temp= format(parameter);
     let url= schoolEndpoint + '?' + temp;
