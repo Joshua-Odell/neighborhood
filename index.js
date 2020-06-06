@@ -195,7 +195,8 @@ function crimeHandler(array){
 }
 
 function generalHandler(array, state){
-    let result=`<h4>${state} Population</h4> <p> ${array[0]} </p>`
+    let num = numberFormat(array[0])
+    let result=`<h4>${state} Population</h4> <p> ${num} </p>`
     generalPrint(result);
     result = '';
 }
@@ -222,7 +223,6 @@ function generalPrint(result) {
 }
 
 function satellitePrint(result) {
-    console.log(result);
     $('.satellite').empty();
     $('.satellite').html(result);
 }
@@ -233,6 +233,9 @@ function format(parameters){
         return formattedSearch.join('&');
 }
 
+function numberFormat(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+}
 
 
 function begin() {
