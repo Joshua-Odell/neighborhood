@@ -10,3 +10,11 @@
     max-width: 33%;
     height: auto;
 }
+
+.results{
+    cursor: pointer;
+}
+
+.results:hover {
+    color: red;
+}

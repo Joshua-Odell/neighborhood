@@ -23,9 +23,12 @@ function long(street, city, state){
         .then(responseJson => {
             let lat= responseJson.results[0].bounds.northeast.lat;
             let lon= responseJson.results[0].bounds.northeast.lng;
-            school(lon, lat, state);
+            //school(lon, lat, state);
             satellite(lon, lat);
             //map(lon, lat); not cors capable
+        })
+        .catch((error) => {
+            console.log(error);
         });
 }
 
@@ -49,7 +52,10 @@ function satellite(lon, lat){
             else {
                 satellitePrint("No Satellite Images Available")
             }
-        })   
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 }
 
 function demographic(city, state){
@@ -68,6 +74,9 @@ function demographic(city, state){
         .then(response => response.json())
         .then(responseJson => {
             generalHandler(responseJson[1], state);
+        })
+        .catch((error) => {
+            console.log(error);
         });
 }
 
@@ -88,6 +97,9 @@ function map(lon,lat) {
         })
         .then (responseJson => {
             mapHandler(responseJson)
+        })
+        .catch((error) => {
+            console.log(error);
         });
 }
 
@@ -106,6 +118,9 @@ function school(lon, lat, state){
         .then(response => response.json())
         .then(responseJson => {
             schoolHandler(responseJson.districtList); 
+        })
+        .catch((error) => {
+            console.log(error);
         });
 }
 
@@ -132,6 +147,9 @@ function news(city, state){
         .then(response => response.json())
         .then(responseJson => {
             newsHandler(responseJson.value); 
+        })
+        .catch((error) => {
+            console.log(error);
         });
 }
 
