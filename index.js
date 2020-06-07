@@ -71,25 +71,25 @@ function demographic(city, state){
         });
 }
 
-// function map(lon,lat) {
-//     let parameter = {
-//         key: googleMapsAPIKey,
-//         location: {
-//             "lat": lat,
-//             "lon": lon
-//         }
-//     }
-//     let temp=format(parameter);
-//     let url = googleMapsEndpoint + '?' + temp
-//     fetch(url)
-//         .then (response => {
-//             console.log(response);
-//             return response.Json
-//         })
-//         .then (responseJson => {
-//             mapHandler(responseJson)
-//         });
-// }
+function map(lon,lat) {
+    let parameter = {
+        key: googleMapsAPIKey,
+        location: {
+            "lat": lat,
+            "lon": lon
+        }
+    }
+    let temp=format(parameter);
+    let url = googleMapsEndpoint + '?' + temp
+    fetch(url)
+        .then (response => {
+            console.log(response);
+            return response.Json
+        })
+        .then (responseJson => {
+            mapHandler(responseJson)
+        });
+}
 
 function school(lon, lat, state){
     let parameter = {
