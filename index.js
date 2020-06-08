@@ -25,7 +25,7 @@ function long(street, city, state){
             let lon= responseJson.results[0].bounds.northeast.lng;
             school(lon, lat, state);
             satellite(lon, lat);
-            //map(lon, lat); 
+            map(lon, lat); 
         })
         .catch((error) => {
             console.log(error);
@@ -114,11 +114,16 @@ function map(lon,lat) {
 function school(lon, lat, state){
     let parameter = {
         st: state,
-        nearLongitude: lon,
-        nearLatitude: lat,
         appID: schoolID,
         appKey: schoolAPIKey,
         sortBy: "distance"
+    }
+    let schoolHeaders = {
+        method: 'GET',
+        Origin: 'http://127.0.0.1:5500'
+        //headers: {
+            //Origin: 'http://127.0.0.1:5500'   
+        //}
     }
     let temp= format(parameter);
     let url= schoolEndpoint + '?' + temp;
