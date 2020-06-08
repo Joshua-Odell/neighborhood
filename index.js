@@ -23,9 +23,9 @@ function long(street, city, state){
         .then(responseJson => {
             let lat= responseJson.results[0].bounds.northeast.lat;
             let lon= responseJson.results[0].bounds.northeast.lng;
-            //school(lon, lat, state);
+            school(lon, lat, state);
             satellite(lon, lat);
-            //map(lon, lat); not cors capable
+            //map(lon, lat); 
         })
         .catch((error) => {
             console.log(error);
@@ -46,7 +46,7 @@ function satellite(lon, lat){
     fetch(url)
         .then(response => {
             let result = response.url
-            if (response.ok === true){
+            if (response.ok){
                 imageHandler(result);
             }
             else {
@@ -83,14 +83,22 @@ function demographic(city, state){
 function map(lon,lat) {
     let parameter = {
         key: googleMapsAPIKey,
+        libraries: "places",
         location: {
             "lat": lat,
             "lon": lon
         }
     }
+    let googleHeaders = {
+        method: 'GET',
+        headers: {
+            'Access-Control-Allow-Origin': 'http://127.0.0.1:5500'
+        }
+    }
     let temp=format(parameter);
     let url = googleMapsEndpoint + '?' + temp
-    fetch(url)
+    console.log(url)
+    fetch(url, googleHeaders)
         .then (response => {
             console.log(response);
             return response.Json
