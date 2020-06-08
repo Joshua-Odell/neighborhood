@@ -21,10 +21,12 @@ function long(street, city, state){
     fetch(url)
         .then(response => response.json())
         .then(responseJson => {
-            let lat= responseJson.results[0].bounds.northeast.lat;
-            let lon= responseJson.results[0].bounds.northeast.lng;
+            const lat= responseJson.results[0].bounds.northeast.lat;
+            const lon= responseJson.results[0].bounds.northeast.lng;
             school(lon, lat, state);
             satellite(lon, lat);
+            initMap(lon, lat);
+            //map(lon, lat); 
         })
         .catch((error) => {
             console.log(error);
@@ -79,6 +81,29 @@ function demographic(city, state){
         });
 }
 
+
+function map1(lon,lat) {
+    let parameter = {
+        key: googleMapsAPIKey,
+        libraries: "places",
+        callback: initMap
+    };
+    let temp=format(parameter);
+    let url = googleMapsEndpoint + '?' + temp
+    console.log(url)
+    fetch(url, googleHeaders)
+        .then (response => {
+            console.log(response);
+            return response.Json
+        })
+        .then (responseJson => {
+            mapHandler(responseJson)
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
 function school(lon, lat, state){
     let parameter = {
         st: state,
@@ -127,6 +152,10 @@ function news(city, state){
         });
 }
 
+// function mapHandler(array){
+//     //console.log("map success");
+// }
+
 function newsHandler(array){
     let result = ''
     //not all items have an image 
@@ -145,8 +174,9 @@ function newsHandler(array){
 }
 
 function schoolHandler(array){
+    let displayLimit = 5;
     let result=''
-    for (i=0; i<array.length; i++){
+    for (i=0; i<array.length && i<displayLimit ; i++){
         let temp = `<li> <h4>${array[i].districtName}</h4> <br> <p>Phone Number: ${array[i].phone}</p> <a href=${array[i].url}>Website</a> </li>`
         result += temp;
     }
@@ -220,6 +250,7 @@ function begin() {
     $('.general-header').on('click', function(e) {
         $('.generalResultList').toggle('hidden');
         $('.satellite').toggle('hidden');
+        $('#map').toggle('hidden');
         // 
     });
 }
