@@ -25,7 +25,6 @@ function long(street, city, state){
             let lon= responseJson.results[0].bounds.northeast.lng;
             school(lon, lat, state);
             satellite(lon, lat);
-            //map(lon, lat); 
         })
         .catch((error) => {
             console.log(error);
@@ -80,37 +79,6 @@ function demographic(city, state){
         });
 }
 
-function map(lon,lat) {
-    let parameter = {
-        key: googleMapsAPIKey,
-        libraries: "places",
-        location: {
-            "lat": lat,
-            "lon": lon
-        }
-    }
-    let googleHeaders = {
-        method: 'GET',
-        headers: {
-            'Access-Control-Allow-Origin': 'http://127.0.0.1:5500'
-        }
-    }
-    let temp=format(parameter);
-    let url = googleMapsEndpoint + '?' + temp
-    console.log(url)
-    fetch(url, googleHeaders)
-        .then (response => {
-            console.log(response);
-            return response.Json
-        })
-        .then (responseJson => {
-            mapHandler(responseJson)
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
 function school(lon, lat, state){
     let parameter = {
         st: state,
@@ -158,10 +126,6 @@ function news(city, state){
             console.log(error);
         });
 }
-
-// function mapHandler(array){
-//     //console.log("map success");
-// }
 
 function newsHandler(array){
     let result = ''
