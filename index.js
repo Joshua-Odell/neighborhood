@@ -223,7 +223,6 @@ function numberFormat(num) {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 }
 
-
 function begin() {
     $('#submit').on('click', function(e) {
         e.preventDefault;
@@ -237,7 +236,6 @@ function begin() {
         });
     $('.news-header').on('click', function(e) {
         $('.newsResultList').toggle('hidden');
-
         // 
     });
     $('.school-header').on('click', function(e) {
