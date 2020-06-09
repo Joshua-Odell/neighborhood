@@ -28,7 +28,9 @@ header{
     font-family: 'Indie Flower', cursive;
     text-align: center;
     cursor: pointer;
-    font-size: 50px;
+    margin: 0;
+    padding: 1vw;
+    font-size: 6vh;
     color: whitesmoke;
 }
 
@@ -64,6 +66,7 @@ header:hover {
 .group{
     display: flex;
     flex-direction: column;
+    padding: .5%;
 }
 
 #map{
