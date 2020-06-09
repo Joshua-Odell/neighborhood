@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Montserrat&display=swap');
 .hidden {
     display: none;
 }
@@ -20,10 +21,20 @@ body{
     border-style: solid;
     border-width: 5px;
     border-color: white;
+    font-family: 'Montserrat', sans-serif;
 }
 
 header{
+    font-family: 'Indie Flower', cursive;
     text-align: center;
+    cursor: pointer;
+    font-size: 50px;
+    color: whitesmoke;
+}
+
+header:hover {
+    color:red;
+    
 }
 
 .school{
@@ -36,11 +47,18 @@ header{
 
 .general{
     background-image: url(pictures/general-header.jpg);
-    color: white;
 }
 
 .news-information{
     background-color: cornflowerblue;
+}
+
+.school-information{
+    background-color: lightgreen;
+}
+
+.general-information{
+    background-color: beige;
 }
 
 .group{
@@ -59,6 +77,11 @@ main .headers{
     align-items: center;
     height: 200px;
     width: auto;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.text{ 
+    font-family: 'Lora', serif;
 }
 
 .response-groups h2{

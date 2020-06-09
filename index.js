@@ -27,7 +27,7 @@ function long(street, city, state){
         .then(responseJson => {
             const lat= responseJson.results[0].bounds.northeast.lat;
             const lon= responseJson.results[0].bounds.northeast.lng;
-            school(lon, lat, state);
+            //school(lon, lat, state);
             satellite(lon, lat);
             initMap(lon, lat);
         })
@@ -233,6 +233,7 @@ function begin() {
         pull(street, city, state);
         //remove hidden class from links
         $('.response-groups').removeClass('hidden');
+        $('.searchBar').toggle('hidden');
         });
     $('.news-header').on('click', function(e) {
         $('.newsResultList').toggle('hidden');
@@ -249,6 +250,11 @@ function begin() {
         $('#map').toggle('hidden');
         // 
     });
+    $('header').on('click', function(e){
+        $('.searchBar').toggle('hidden');
+        $('.response-groups').toggle('hidden')
+    });
+    
 }
 
 $(begin);
