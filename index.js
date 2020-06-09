@@ -27,10 +27,9 @@ function long(street, city, state){
         .then(responseJson => {
             const lat= responseJson.results[0].bounds.northeast.lat;
             const lon= responseJson.results[0].bounds.northeast.lng;
-            //school(lon, lat, state);
+            school(lon, lat, state);
             satellite(lon, lat);
             initMap(lon, lat);
-            //map(lon, lat); 
         })
         .catch((error) => {
             console.log(error);
@@ -233,7 +232,7 @@ function begin() {
         let state = $('#state').val();
         pull(street, city, state);
         //remove hidden class from links
-        $('.results').removeClass('hidden');
+        $('.response-groups').removeClass('hidden');
         });
     $('.news-header').on('click', function(e) {
         $('.newsResultList').toggle('hidden');

@@ -13,48 +13,52 @@
     <header>
         <h1>Neighborhood</h1>
     </header>
-    <div>
-        <h2>Search a perspective address or city</h2>
-        <p> With this tool you can find relevant information about a potential move</p>
-        <fieldset>
-            <label for="street">street address</label>
-            <input type="text" name="street" id="street" placeholder="Ex. '1234 Easy Street'"/>
+    <main>
+        <div class="searchBar group">
+            <h2 class="item">Search a perspective address or city</h2>
+            <p class="item"> With this tool you can find relevant information about a potential move</p>
+            <fieldset class="item">
+                <label for="street">street address</label>
+                <input type="text" name="street" id="street" placeholder="Ex. '1234 Easy Street'"/>
 
-            <label for="city">City</label>
-            <input type="text" id="city" placeholder="Ex. 'Minneapolis'" />
+                <label for="city">City</label>
+                <input type="text" id="city" placeholder="Ex. 'Minneapolis'" />
 
-            <label for="state">State</label>
-            <input type="text" id="state" minlength="1" maxlength="2" placeholder="Ex. 'MN'"/>
+                <label for="state">State</label>
+                <input type="text" id="state" minlength="1" maxlength="2" placeholder="Ex. 'MN'"/>
 
-            <input type="submit" id="submit" />
-        </fieldset>
-    </div>
-    <div>
-        <div class="news-header">
-            <h2 class ="hidden results">Recent News</h2>
+                <input type="submit" id="submit" />
+            </fieldset>
         </div>
-        <div>
-            <ul class="newsResultList hidden"></ul>
-        </div> 
-    </div>
-    <div>
-        <div class="school-header">
-            <h2 class ="hidden results">Schools</h2>
-        </div>
-        <div>
-            <ul class="schoolResultList hidden"></ul>
-        </div>
-    </div>
-    <div>
-        <div class="general-header">
-            <h2 class ="hidden results hidden">Demographic Information</h2>
-        </div>
-        <div>
-            <ul class="generalResultList hidden"></ul>
-            <div id="map" class="hidden">map filler</div>
-            <div class="satellite hidden"></div>
+        <div class="response-groups hidden">
+            <div class="group a">
+                <div class="news-header headers item news">
+                    <h2 class ="results">Recent News</h2>
+                </div>
+                <div class='item news-information'>
+                    <ul class="newsResultList hidden"></ul>
+                </div> 
+            </div>
+            <div class="group ">
+                <div class="school-header headers item school">
+                    <h2 class ="results">Local Schools</h2>
+                </div>
+                <div class="item school-information">
+                    <ul class="schoolResultList hidden"></ul>
+                </div>
+            </div>
+            <div class="group  ">
+                <div class="general-header headers item general">
+                    <h2 class ="results">Demographic Information</h2>
+                </div>
+                <div class="item general-information">
+                    <ul class="generalResultList hidden"></ul>
+                    <div id="map" class="hidden">map filler</div>
+                    <div class="satellite hidden"></div>
+                </div>        
+            </div>
         </div>        
-    </div>
+    </main>
     <script src='index.js'></script>
     <script src='fips.js'></script>
 </body>

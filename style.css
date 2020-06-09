@@ -5,9 +5,64 @@
     display: flex; 
 }
 
+body{
+    background-color: black;
+    background-image: URL(pictures/background.jpg);
+}
+
+.searchBar{
+    background-color: lightblue;
+    max-width: 60%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin: auto;
+    border-style: solid;
+    border-width: 5px;
+    border-color: white;
+}
+
+header{
+    text-align: center;
+}
+
+.school{
+    background-image: url(pictures/school-header.jpg );
+}
+
+.news{
+    background-image: url(pictures/news-header.jpg);
+}
+
+.general{
+    background-image: url(pictures/general-header.jpg);
+    color: white;
+}
+
+.news-information{
+    background-color: cornflowerblue;
+}
+
+.group{
+    display: flex;
+    flex-direction: column;
+}
+
 #map{
     height: 400px;
     width: auto;
+    
+}
+
+main .headers{
+    text-align: center;
+    align-items: center;
+    height: 200px;
+    width: auto;
+}
+
+.response-groups h2{
+    font-size: 55px;
 }
 
 .image{
