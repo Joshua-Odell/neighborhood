@@ -1,4 +1,8 @@
 let count = 0;// A weird error is occurring when i delete this unconnected variable
+var map;
+var service;
+var infowindow;
+
 
 function pull(street, city, state){
     //
@@ -23,7 +27,7 @@ function long(street, city, state){
         .then(responseJson => {
             const lat= responseJson.results[0].bounds.northeast.lat;
             const lon= responseJson.results[0].bounds.northeast.lng;
-            school(lon, lat, state);
+            //school(lon, lat, state);
             satellite(lon, lat);
             initMap(lon, lat);
             //map(lon, lat); 
@@ -81,35 +85,14 @@ function demographic(city, state){
         });
 }
 
-
-function map1(lon,lat) {
-    let parameter = {
-        key: googleMapsAPIKey,
-        libraries: "places",
-        callback: initMap
-    };
-    let temp=format(parameter);
-    let url = googleMapsEndpoint + '?' + temp
-    console.log(url)
-    fetch(url, googleHeaders)
-        .then (response => {
-            console.log(response);
-            return response.Json
-        })
-        .then (responseJson => {
-            mapHandler(responseJson)
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
 function school(lon, lat, state){
     let parameter = {
         st: state,
         appID: schoolID,
         appKey: schoolAPIKey,
-        sortBy: "distance"
+        sortBy: "distance",
+        nearLatitude: lat,
+        nearLongitude: lon
     }
     let temp= format(parameter);
     let url= schoolEndpoint + '?' + temp;
@@ -152,9 +135,23 @@ function news(city, state){
         });
 }
 
-// function mapHandler(array){
-//     //console.log("map success");
-// }
+function initMap(lon, lat) {
+    let options = {
+        zoom:13,
+        center:{lat: lat, lng: lon}
+    }
+
+    infowindow = new google.maps.InfoWindow();
+
+    map = new google.maps.Map(
+        document.getElementById('map'), options);
+
+    let marker = new google.maps.Marker({
+        position:{lat: lat, lng: lon},
+        map: map
+    })
+    
+}
 
 function newsHandler(array){
     let result = ''

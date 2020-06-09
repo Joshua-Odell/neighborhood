@@ -5,6 +5,11 @@
     display: flex; 
 }
 
+#map{
+    height: 400px;
+    width: auto;
+}
+
 .image{
     display: flex;
     max-width: 33%;
