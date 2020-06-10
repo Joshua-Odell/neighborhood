@@ -33,15 +33,15 @@ header{
 }
 
 .school{
-    background-image: url(pictures/school-header.jpg );
+    background-image: url(Pictures/school-header.jpg );
 }
 
 .news{
-    background-image: url(pictures/news-header.jpg);
+    background-image: url(Pictures/news-header.jpg);
 }
 
 .general{
-    background-image: url(pictures/general-header.jpg);
+    background-image: url(Pictures/general-header.jpg);
 }
 
 .news-information{
