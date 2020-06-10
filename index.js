@@ -3,6 +3,7 @@ var map;
 var service;
 var infowindow;
 
+$(begin);
 
 function pull(street, city, state){
     //
@@ -32,7 +33,7 @@ function long(street, city, state){
             initMap(lon, lat);
         })
         .catch((error) => {
-            console.log(error);
+            console.error;
         });
 }
 
@@ -58,7 +59,7 @@ function satellite(lon, lat){
             }
         })
         .catch((error) => {
-            console.log(error);
+            console.error;
         });
 }
 
@@ -231,9 +232,13 @@ function begin() {
         let state = $('#state').val();
         pull(street, city, state);
         //remove hidden class from links
-        $('.response-groups').removeClass('hidden');
+        $('.response-groups').toggle('hidden');
         $('.searchBar').toggle('hidden');
+        $('header').on('click', function(e){
+            $('.response-groups').toggle('hidden');
+            $('.searchBar').toggle('hidden');
         });
+    });
     $('.news-header').on('click', function(e) {
         $('.newsResultList').toggle('hidden');
         // 
@@ -248,11 +253,7 @@ function begin() {
         $('#map').toggle('hidden');
         // 
     });
-    $('header').on('click', function(e){
-        $('.searchBar').toggle('hidden');
-        $('.response-groups').toggle('hidden')
-    });
+    
     
 }
 
-$(begin);
