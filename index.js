@@ -1,12 +1,9 @@
-let count = 0;// A weird error is occurring when i delete this unconnected variable
 var map;
 var service;
 var infowindow;
 
-$(begin);
-
 function pull(street, city, state){
-    //
+    //This function separate those APIs that need coordinates and those that do not
     news(city, state);
     long(street, city, state);
     demographic(city, state);
@@ -14,15 +11,16 @@ function pull(street, city, state){
 
 function long(street, city, state){
     //This function uses Open Cage to convert city and state into lon and lat
-    
-    //This also may allow for satellite maps to display the location 
+    //This is then used in later APIs
     let parameter = {
         q:street + " " + city + " " + state,
         key: longAPIKey
     }
 
     let temp= format(parameter);
+
     let url= longAPIendpoint + '?' + temp;
+
     fetch(url)
         .then(response => response.json())
         .then(responseJson => {
@@ -38,7 +36,9 @@ function long(street, city, state){
 }
 
 function satellite(lon, lat){
-//This shows a satellite image of the coordinates, The image quality is poor I will possibly replace this API with the google earth API but there is a waiting period
+//This shows a satellite image of the coordinates
+//The image is dependant on wether there is an applicable image for the search
+//If there is no relevant data it logs a message about there being no image
     let parameter = {
         lon: lon,
         lat: lat,
@@ -64,7 +64,7 @@ function satellite(lon, lat){
 }
 
 function demographic(city, state){
-    //get demographic information about the provided city
+    //get demographic information about the provided State
     let mid = $(fips[state]);
     let stand =mid[0];
     let parameter = {
@@ -86,6 +86,7 @@ function demographic(city, state){
 }
 
 function school(lon, lat, state){
+    //Returns the top five districts that are relevant to the search 
     let parameter = {
         st: state,
         appID: schoolID,
@@ -109,7 +110,6 @@ function school(lon, lat, state){
 function news(city, state){
     //uses the city and state as a search parameter to pull news
     //Uses Bing News Search API
-    //use the from parameter to get information from the past six months
     let parameter = {
         q: city + ", " + state
     }
@@ -136,6 +136,7 @@ function news(city, state){
 }
 
 function initMap(lon, lat) {
+    //this uses the google maps API to return a map based on the coordinates calculated
     let options = {
         zoom:13,
         center:{lat: lat, lng: lon}
@@ -154,14 +155,11 @@ function initMap(lon, lat) {
 }
 
 function newsHandler(array){
-    let result = ''
-    //not all items have an image 
+    //Uses Bing API to return top five regional news stories
+    let result = '' 
     for ( i=0; i<array.length && i<5; i++) {
         let title = array[i].name;
         let description = array[i].description
-        //if (array[i].image != undefined){
-            //let image = array[i].image.thumbnail.contentUrl;
-        //}
         let site = array[i].url;
         let html = `<li> <h5>${title}</h5> <br> <p>${description}</p> <a href='${site}'>read more</a> </li>`;
         result = result + html;
@@ -171,6 +169,7 @@ function newsHandler(array){
 }
 
 function schoolHandler(array){
+    //iterates through the data returned to display school districts
     let displayLimit = 5;
     let result=''
     for (i=0; i<array.length && i<displayLimit ; i++){
@@ -182,6 +181,7 @@ function schoolHandler(array){
 }
 
 function generalHandler(array, state){
+    //Takes the return from the census to present user with population data
     let num = numberFormat(array[0])
     let result=`<h4>${state} Population</h4> <p> ${num} </p>`
     generalPrint(result);
@@ -189,6 +189,7 @@ function generalHandler(array, state){
 }
 
 function imageHandler(image){
+    //returns image format
     let result=`<img src="${image}" class="image">`
     satellitePrint(result);
 }
@@ -215,6 +216,7 @@ function satellitePrint(result) {
 }
 
 function format(parameters){
+    //used to put various parameters into proper form for .fetch()
     const formattedSearch = Object.keys(parameters)
         .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(parameters[key])}`)
         return formattedSearch.join('&');
@@ -225,6 +227,7 @@ function numberFormat(num) {
 }
 
 function begin() {
+    //starts the chain of functions and handles the information flow for the user
     $('#submit').on('click', function(e) {
         e.preventDefault;
         let street = $('#street').val();
@@ -257,3 +260,4 @@ function begin() {
     
 }
 
+$(begin);

@@ -28,7 +28,7 @@ header{
     font-family: 'Indie Flower', cursive;
     text-align: center;
     cursor: pointer;
-    font-size: 50px;
+    font-size: 20px;
     color: whitesmoke;
 }
 
@@ -97,3 +97,9 @@ main .headers{
 }
 
 .results:hover { transform: scale(1.1); }
+
+@media only screen and (min-width: 600px){
+    header{
+        font-size: 50px;
+    }
+}
