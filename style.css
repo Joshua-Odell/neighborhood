@@ -32,8 +32,13 @@ header{
     color: whitesmoke;
 }
 
+.feedback {
+    color: red;
+}
+
 .school{
     background-image: url(Pictures/school-header.jpg );
+    alt:"Chalkboard with an Apple on a stack of books";
 }
 
 .news{

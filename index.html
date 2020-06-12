@@ -16,19 +16,21 @@
     <main>
         <div class="searchBar group">
             <h2 class="item">Search a perspective address or city</h2>
-            <p class="item"> With this tool you can find relevant information about a potential move</p>
+            <p class="item"> With this tool you can find relevant information about a potential move including news articles, school districts and demographic information.</p>
             <fieldset class="item group">
+                <legend>Address Field</legend>
                 <label for="street">Street Address</label>
                 <input type="text" class="item" name="street" id="street" placeholder="Ex. '1234 Easy Street'"/>
 
                 <label for="city">City</label>
-                <input type="text" class="item" id="city" placeholder="Ex. 'Minneapolis'" />
+                <input type="text" class="item" id="city" placeholder="Ex. 'Minneapolis'" required />
 
                 <label for="state">State</label>
-                <input type="text" class="item" id="state" minlength="1" maxlength="2" placeholder="Ex. 'MN'"/>
+                <input type="text" class="item" id="state" minlength="1" maxlength="2" placeholder="Ex. 'MN'" required> <br>
 
-                <input type="submit" id="submit" />
+                <input type="submit" id="submit" class="item" value="Search" />
             </fieldset>
+            <div class="feedback"></div>
         </div>
         <div class="response-groups hidden">
             <div class="group a">
