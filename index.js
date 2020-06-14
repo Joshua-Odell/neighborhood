@@ -2,7 +2,7 @@ function pull(street, city, state){
     //This function separate those APIs that need coordinates and those that do not
     news(city, state);
     long(street, city, state);
-    demographic(city, state);
+    demographic(state);
 }
 
 function long(street, city, state){
@@ -10,7 +10,6 @@ function long(street, city, state){
     //This is then used in later APIs
     let longAPIKey = '2c4a3f1979af46d1bbbed1bc3ff8b663'
     let longAPIendpoint = 'https://api.opencagedata.com/geocode/v1/json' //OpenCage API
-
     let parameter = {
         q:street + " " + city + " " + state,
         key: longAPIKey
@@ -23,12 +22,22 @@ function long(street, city, state){
     fetch(url)
         .then(response => response.json())
         .then(responseJson => {
-            const lat= responseJson.results[0].bounds.northeast.lat;
-            const lon= responseJson.results[0].bounds.northeast.lng;
-            //school(lon, lat, state);
-            satellite(lon, lat);
-            initMap(lon, lat);
+            if(responseJson.status.message === "OK"){
+                const lat= responseJson.results[0].bounds.northeast.lat;
+                const lon= responseJson.results[0].bounds.northeast.lng;
+                //school(lon, lat, state);
+                satellite(lon, lat);
+                initMap(lon, lat);
+                console.log(lat, lon);
+            }
+            else{
+                let errorMessage = "<p> No records for this address were found. Please Try Again. </p>"
+                $('.critical-failure').html(errorMessage);
+            }
+            
         })
+        
+        
         .catch((error) => {
             console.error;
         });
@@ -64,7 +73,7 @@ function satellite(lon, lat){
         });
 }
 
-function demographic(city, state){
+function demographic(state){
     let censusAPIKey = 'a95007220d2c9eb1fac73c3590adaea8fe779357'
     let censusAPIendpoint = 'https://api.census.gov/data/2019/pep/population'
     //get demographic information about the provided State
@@ -240,10 +249,11 @@ function begin() {
     //starts the chain of functions and handles the information flow for the user
     $('#submit').on('click', function(e) {
         e.preventDefault
-        if ($('#city').val() !== "" && $('#state').val() !== ""){
-            let street = $('#street').val();
-            let city = $('#city').val();
-            let state = $('#state').val();
+        let street = $('#street').val();
+        let city = $('#city').val();
+        let state = $('#state').val();
+        if (city !== "" && fips.hasOwnProperty(state)){
+            
             pull(street, city, state);
             //remove hidden class from links
             $('.response-groups').toggle('hidden');
@@ -256,7 +266,7 @@ function begin() {
         }
         else {
             $('.feedback').empty();
-            $('.feedback').html('<p> The State and City fields are required. </p>');
+            $('.feedback').html('<p> The entered State and City fields were not found. </p>');
         }
         
     });
