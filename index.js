@@ -25,7 +25,7 @@ function long(street, city, state){
             if(responseJson.status.message === "OK"){
                 const lat= responseJson.results[0].bounds.northeast.lat;
                 const lon= responseJson.results[0].bounds.northeast.lng;
-                //school(lon, lat, state);
+                school(lon, lat, state);
                 satellite(lon, lat);
                 initMap(lon, lat);
                 console.log(lat, lon);
@@ -82,7 +82,6 @@ function demographic(state){
     let parameter = {
         key: censusAPIKey,
         get: 'POP',
-        //for: 'consolidated city:' + city,
         for: 'state:' + stand
     }
     let temp=format(parameter);
@@ -145,7 +144,7 @@ function news(city, state){
     fetch(url, requestOptions)
         .then(response => response.json())
         .then(responseJson => {
-            newsHandler(responseJson.value); 
+            newsHandler(responseJson.value);            
         })
         .catch((error) => {
             console.log(error);
@@ -258,6 +257,7 @@ function begin() {
             //remove hidden class from links
             $('.response-groups').toggle('hidden');
             $('.searchBar').toggle('hidden');
+            $('header').toggleClass('emphasize');
             $('header').on('click', function(e){
                 $('.response-groups').toggle('hidden');
                 $('.searchBar').toggle('hidden');
