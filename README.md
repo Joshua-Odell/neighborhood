@@ -1,12 +1,12 @@
-#Neighborhood 
+#Neighborhood tag 
 
 https://joshua-odell.github.io/neighborhood/
 
 
-###Landing Page
+###Landing Page tag
 ![Landing page screenshot](https://github.com/Joshua-Odell/neighborhood/blob/master/Pictures/screenshot.jpg)
 
-###Results Page
+###Results Page tag
 ![results screen] (https://github.com/Joshua-Odell/neighborhood/blob/master/Pictures/screenshot2.jpg)
 
 With this app you can enter the address of a potential home. You well then be presented with relevant information about this new home
