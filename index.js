@@ -251,6 +251,7 @@ function begin() {
         let street = $('#street').val();
         let city = $('#city').val();
         let state = $('#state').val();
+        state = state.toUpperCase();
         if (city !== "" && fips.hasOwnProperty(state)){
             
             pull(street, city, state);
