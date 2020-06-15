@@ -15,8 +15,8 @@ including recent news articles, school districts and demographic information.
 
 ## This site uses:
 HTML/CSS
-Javascript
-Jquery
+JavaScript
+JQuery
 Google Maps API
 Bing Search API
 School Digger API
