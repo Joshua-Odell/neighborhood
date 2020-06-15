@@ -67,6 +67,10 @@ header{
     padding: .5%;
 }
 
+.item{
+    padding: 3px;
+}
+
 #map{
     height: 400px;
     width: auto;

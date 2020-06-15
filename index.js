@@ -209,7 +209,7 @@ function generalHandler(array, state){
 
 function imageHandler(image){
     //returns image format
-    let result=`<img src="${image}" class="image">`
+    let result=`<img src="${image}" class="image" alt="A satellite image of the search criteria">`
     satellitePrint(result);
 }
 

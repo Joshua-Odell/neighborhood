@@ -1,9 +1,9 @@
-Neighborhood 
+#Neighborhood 
 
 https://joshua-odell.github.io/neighborhood/
 
-https://github.com/Joshua-Odell/neighborhood/blob/master/Pictures/screenshot.jpg
-https://github.com/Joshua-Odell/neighborhood/blob/master/Pictures/screenshot2.jpg
+![Landing page screenshot](https://github.com/Joshua-Odell/neighborhood/blob/master/Pictures/screenshot.jpg)
+![results screen] (https://github.com/Joshua-Odell/neighborhood/blob/master/Pictures/screenshot2.jpg)
 
 With this app you can enter the address of a potential home. You well then be presented with relevant information about this new home
 including recent news articles, school districts and demographic information.
