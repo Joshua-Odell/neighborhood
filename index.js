@@ -25,10 +25,9 @@ function long(street, city, state){
             if(responseJson.status.message === "OK"){
                 const lat= responseJson.results[0].bounds.northeast.lat;
                 const lon= responseJson.results[0].bounds.northeast.lng;
-                school(lon, lat, state);
+                //school(lon, lat, state);
                 satellite(lon, lat);
                 initMap(lon, lat);
-                console.log(lat, lon);
             }
             else{
                 let errorMessage = "<p> No records for this address were found. Please Try Again. </p>"
@@ -78,7 +77,7 @@ function demographic(state){
     let censusAPIendpoint = 'https://api.census.gov/data/2019/pep/population'
     //get demographic information about the provided State
     let mid = $(fips[state]);
-    let stand =mid[0];
+    let stand =mid.selector;
     let parameter = {
         key: censusAPIKey,
         get: 'POP',
@@ -201,7 +200,7 @@ function schoolHandler(array){
 function generalHandler(array, state){
     //Takes the return from the census to present user with population data
     let num = numberFormat(array[0])
-    let result=`<h4>${state} Population</h4> <p> ${num} </p>`
+    let result=`<h5>${state}</h5> <p> ${num} </p>`
     generalPrint(result);
     result = '';
 }
@@ -283,6 +282,7 @@ function begin() {
         $('.generalResultList').toggle('hidden');
         $('.satellite').toggle('hidden');
         $('#map').toggle('hidden');
+        $('.titles').toggle('hidden');
         // 
     });
     
