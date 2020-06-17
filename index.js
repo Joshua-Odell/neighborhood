@@ -167,8 +167,7 @@ function initMap(lon, lat) {
     let marker = new google.maps.Marker({
         position:{lat: lat, lng: lon},
         map: map
-    })
-    
+    })    
 }
 
 function newsHandler(array){
@@ -257,8 +256,8 @@ function begin() {
             //remove hidden class from links
             $('.response-groups').toggle('hidden');
             $('.searchBar').toggle('hidden');
-            $('header').toggleClass('emphasize');
-            $('header').on('click', function(e){
+            $('footer').toggleClass('emphasize');
+            $('footer').on('click', function(e){
                 $('.response-groups').toggle('hidden');
                 $('.searchBar').toggle('hidden');
             });
