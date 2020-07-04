@@ -25,7 +25,7 @@ function long(street, city, state){
             if(responseJson.status.message === "OK"){
                 const lat= responseJson.results[0].bounds.northeast.lat;
                 const lon= responseJson.results[0].bounds.northeast.lng;
-                //school(lon, lat, state);
+                school(lon, lat, state);
                 satellite(lon, lat);
                 initMap(lon, lat);
             }
